@@ -1,0 +1,85 @@
+{# templates/produit/dashboard.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard Produits{% endblock %}
+
+{% block body %}
+    <div class="row mb-4">
+        <div class="col">
+            <h1>Dashboard Produits</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Produits</h5>
+                    <p class="card-text display-4">{{ produits|length }}</p>
+                    <a href="{{ path('produit_list') }}" class="btn btn-light">Voir tous</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Nouveau Produit</h5>
+                    <p class="card-text">Ajouter un nouveau produit au catalogue</p>
+                    <a href="{{ path('produit_add') }}" class="btn btn-light">Ajouter</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Actions</h5>
+                    <p class="card-text">Gérer les fonctionnalités</p>
+                    <a href="#" class="btn btn-light">Options</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Produits récents</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prix</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for produit in produits %}
+                                <tr>
+                                    <td>{{ produit.nom }}</td>
+                                    <td>{{ produit.prix|number_format(2, ',', ' ') }} €</td>
+                                    <td>
+                                        <a href="{{ path('produit_show', {'id': produit.id}) }}" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ path('produit_edit', {'id': produit.id}) }}" class="btn btn-sm btn-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="3">Aucun produit trouvé</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

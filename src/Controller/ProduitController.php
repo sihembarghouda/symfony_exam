@@ -1,4 +1,5 @@
 <?php
+// src/Controller/ProduitController.php
 
 namespace App\Controller;
 
@@ -11,25 +12,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/produit')]
 class ProduitController extends AbstractController
 {
-    /**
-     * Page d'accueil (home)
-     */
-    #[Route('/', name: 'home')]
+    #[Route('/', name: 'home')]  // racine du site '/'
     public function index(): Response
     {
-        return $this->render('base/index.html.twig');
+        return $this->render('produit/index.html.twig');
     }
 
-    /**
-     * Page dashboard des produits avec navbar
-     */
-    #[Route('/dashboard', name: 'produit_dashboard')]
+    #[Route('/produit/dashboard', name: 'produit_dashboard')]
     public function dashboard(ProduitRepository $produitRepository): Response
     {
-        // Récupérer quelques produits récents pour afficher sur le dashboard
         $produits = $produitRepository->findBy([], ['id' => 'DESC'], 5);
 
         return $this->render('produit/dashboard.html.twig', [
@@ -37,10 +30,7 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    /**
-     * Page d'ajout de produit avec formulaire
-     */
-    #[Route('/add', name: 'produit_add')]
+    #[Route('/produit/add', name: 'produit_add')]
     public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
         $produit = new Produit();
@@ -60,10 +50,7 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    /**
-     * Page liste des produits
-     */
-    #[Route('/list', name: 'produit_list')]
+    #[Route('/produit/list', name: 'produit_list')]
     public function list(ProduitRepository $produitRepository): Response
     {
         $produits = $produitRepository->findAll();
@@ -73,10 +60,7 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    /**
-     * Affichage des détails d'un produit
-     */
-    #[Route('/{id}', name: 'produit_show', methods: ['GET'])]
+    #[Route('/produit/{id}', name: 'produit_show', methods: ['GET'])]
     public function show(Produit $produit): Response
     {
         return $this->render('produit/show.html.twig', [
@@ -84,10 +68,7 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    /**
-     * Édition d'un produit existant
-     */
-    #[Route('/{id}/edit', name: 'produit_edit', methods: ['GET', 'POST'])]
+    #[Route('/produit/{id}/edit', name: 'produit_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ProduitType::class, $produit);
@@ -106,10 +87,7 @@ class ProduitController extends AbstractController
         ]);
     }
 
-    /**
-     * Suppression d'un produit
-     */
-    #[Route('/{id}', name: 'produit_delete', methods: ['POST'])]
+    #[Route('/produit/{id}', name: 'produit_delete', methods: ['POST'])]
     public function delete(Request $request, Produit $produit, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $produit->getId(), $request->request->get('_token'))) {
